@@ -121,12 +121,15 @@ class BinarySearchTree(object):
 
     def pre_order(self):
         """Return a generator that returns the values pre-order."""
-        # to_visit = [self._root]
-        # while len(to_visit):
-        #     current_node = to_visit[0]
-        #     if current_node._lchild:
-        #         to_visit.append(current_node._lchild)
-        #     if current_node._rchild:
-        #         to_visit.append(current_node._rchild)
-        #     to_visit.remove(current_node)
-        #     yield current_node._data
+        visited = []
+        current = self._root
+        while len(visited) <= self.size():
+            if current._data not in visited:
+                visited.append(current._data)
+                yield current._data
+            if current._lchild is not None and current._lchild._data not in visited:
+                current = current._lchild
+            elif current._rchild is not None and current._rchild._data not in visited:
+                current = current._rchild
+            else:
+                current = current._parent
