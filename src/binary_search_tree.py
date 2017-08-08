@@ -21,7 +21,8 @@ class BinarySearchTree(object):
         """Create a new tree."""
         self._root = None
         self._size = 0
-        self._depth = 0
+        self._rdepth = 0
+        self._ldepth = 0
         if iter_init is not None:
             if type(iter_init) not in [list, tuple]:
                 raise TypeError('Please enter a list or tuple.')
@@ -34,6 +35,7 @@ class BinarySearchTree(object):
         if not self._root:
             self._root = new_node
             self._size += 1
+            self._depth, self._rdepth, self._ldepth = 1, 1, 1
         else:
             current_node = self._root
             while True:
@@ -62,13 +64,31 @@ class BinarySearchTree(object):
 
     def depth(self):
         """Return depth of tree."""
-        return self._depth()
+        return self._ldepth if self._ldepth > self._rdepth else self._rdepth
 
     def contains(self, data):
-        """Return boolean indicatig whether data is in tree."""
+        """Return boolean indicating whether data is in tree."""
+        return True if self.search(data) else False
 
     def search(self, data):
         """Return node containing a data."""
+        if type(data) not in [int, float]:
+            raise TypeError('{} is not an int or float.'.format(data))
+        current_node = self._root
+        while current_node:
+            if data > current_node._data:
+                if current_node._rchild:
+                    current_node = current_node._rchild
+                else:
+                    return
+            elif data < current_node._data:
+                if current_node._lchild:
+                    current_node = current_node._lchild
+                else:
+                    return
+            else:
+                return current_node
 
     def balance(self):
         """Return balance of tree."""
+        return self._ldepth - self._rdepth
