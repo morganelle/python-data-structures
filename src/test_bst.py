@@ -233,3 +233,17 @@ def test_pre_order_left(init_bst_left):
     assert next(gen) == 15
     assert next(gen) == 10
     assert next(gen) == 5
+
+
+def test_in_order(init_bst_list_traverse):
+    """."""
+    # gen = init_bst_list_traverse.in_order()
+    # assert next(gen) == 1
+    # assert next(gen) == 3
+    # assert next(gen) == 5
+    # assert next(gen) == 4
+    # assert next(gen) == 6
+    # assert next(gen) == 7
+    # assert next(gen) == 8
+    # assert next(gen) == 9
+    assert init_bst_list_traverse.in_order() == [1, 3, 5, 4, 6, 7, 8,]
