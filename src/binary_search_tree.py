@@ -55,11 +55,11 @@ class BinarySearchTree(object):
                         break
                 else:
                     return
-        self._update_depths_and_size(data, current_depth)
-
-    def _update_depths_and_size(self, data, current_depth):
-        """Update left or right depth if needed and increment size."""
         self._size += 1
+        self._update_depths(data, current_depth)
+
+    def _update_depths(self, data, current_depth):
+        """Update left or right depth if needed."""
         if data > self._root._data:
             if current_depth > self._rdepth:
                 self._rdepth = current_depth
@@ -71,22 +71,22 @@ class BinarySearchTree(object):
 
     def search(self, data):
         """Return node containing a data."""
-        if type(data) not in [int, float]:
-            raise TypeError('{} is not an int or float.'.format(data))
-        current_node = self._root
-        while current_node:
-            if data > current_node._data:
-                if current_node._rchild:
-                    current_node = current_node._rchild
+        if type(data) in [int, float]:
+            current_node = self._root
+            while current_node:
+                if data > current_node._data:
+                    if current_node._rchild:
+                        current_node = current_node._rchild
+                    else:
+                        return
+                elif data < current_node._data:
+                    if current_node._lchild:
+                        current_node = current_node._lchild
+                    else:
+                        return
                 else:
-                    return
-            elif data < current_node._data:
-                if current_node._lchild:
-                    current_node = current_node._lchild
-                else:
-                    return
-            else:
-                return current_node
+                    return current_node
+        return
 
     def contains(self, data):
         """Return boolean indicating whether data is in tree."""
