@@ -103,3 +103,18 @@ class BinarySearchTree(object):
     def balance(self):
         """Return balance of tree."""
         return self._rdepth - self._ldepth
+
+    def pre_order_traversal(self):
+        """Yield node data in pre-order."""
+        for node_data in self._pre_order(self._root):
+            yield node_data
+
+    def _pre_order(self, current_node):
+        """."""
+        yield current_node._data
+        if current_node._lchild:
+            for node_data in self._pre_order(current_node._lchild):
+                yield node_data
+        if current_node._rchild:
+            for node_data in self._pre_order(current_node._rchild):
+                yield node_data

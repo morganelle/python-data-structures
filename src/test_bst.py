@@ -39,6 +39,12 @@ def init_bst_list_traverse():
     return BinarySearchTree([6, 3, 7, 1, 5, 4, 9, 8])
 
 
+@pytest.fixture
+def tree_init_list():
+    """Init with numbers 1-7 tree fixture."""
+    return BinarySearchTree([4, 2, 3, 1, 6, 5, 7])
+
+
 def test_invalid_val_init():
     """."""
     with pytest.raises(TypeError):
@@ -172,3 +178,15 @@ def test_balance_right_tree(init_bst_right):
     """."""
     assert init_bst_right.size() == 4
     assert init_bst_right.balance() == 3
+
+
+def test_pre_order(tree_init_list):
+    """Test pre-order first."""
+    gen = tree_init_list.pre_order_traversal()
+    assert next(gen) is 4
+    assert next(gen) is 2
+    assert next(gen) is 1
+    assert next(gen) is 3
+    assert next(gen) is 6
+    assert next(gen) is 5
+    assert next(gen) is 7
