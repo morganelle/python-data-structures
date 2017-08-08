@@ -32,20 +32,19 @@ class BinarySearchTree(object):
     def insert(self, data):
         """Insert a new node into the tree."""
         new_node = Node(data)
+        current_depth = 1
         if not self._root:
             self._root = new_node
-            self._size += 1
-            self._depth, self._rdepth, self._ldepth = 1, 1, 1
         else:
             current_node = self._root
-            while True:
+            while data is not current_node._data:
+                current_depth += 1
                 if data > current_node._data:
                     if current_node._rchild:
                         current_node = current_node._rchild
                     else:
                         current_node._rchild = new_node
                         new_node._parent = current_node
-                        self._size += 1
                         break
                 elif data < current_node._data:
                     if current_node._lchild:
@@ -53,22 +52,22 @@ class BinarySearchTree(object):
                     else:
                         current_node._lchild = new_node
                         new_node._parent = current_node
-                        self._size += 1
                         break
                 else:
-                    raise ValueError('{} is already in the tree'.format(data))
+                    return
+        self._update_depths_and_size(data, current_depth)
 
-    def size(self):
-        """Return size of tree."""
-        return self._size
-
-    def depth(self):
-        """Return depth of tree."""
-        return self._ldepth if self._ldepth > self._rdepth else self._rdepth
-
-    def contains(self, data):
-        """Return boolean indicating whether data is in tree."""
-        return True if self.search(data) else False
+    def _update_depths_and_size(self, data, current_depth):
+        """Update left or right depth if needed and increment size."""
+        self._size += 1
+        if data > self._root._data:
+            if current_depth > self._rdepth:
+                self._rdepth = current_depth
+        elif data < self._root._data:
+            if current_depth > self._ldepth:
+                self._ldepth = current_depth
+        else:
+            self._rdepth, self._ldepth = 1, 1
 
     def search(self, data):
         """Return node containing a data."""
@@ -89,6 +88,18 @@ class BinarySearchTree(object):
             else:
                 return current_node
 
+    def contains(self, data):
+        """Return boolean indicating whether data is in tree."""
+        return True if self.search(data) else False
+
+    def size(self):
+        """Return size of tree."""
+        return self._size
+
+    def depth(self):
+        """Return depth of tree."""
+        return self._ldepth if self._ldepth > self._rdepth else self._rdepth
+
     def balance(self):
         """Return balance of tree."""
-        return self._ldepth - self._rdepth
+        return self._rdepth - self._ldepth
