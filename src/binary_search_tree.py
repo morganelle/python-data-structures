@@ -33,44 +33,45 @@ class BinarySearchTree(object):
         """."""
         if type(val) not in [int, float]:
             raise TypeError('This tree accepts numbers only.')
-        if self._size == 0:
-            self._root = Node(val)
-            self._size += 1
-            self._depth = 1
-        current_node = self._root
-        current_depth = 1
         new_node = Node(val)
-        while val is not current_node._data:
-            current_depth += 1
-            if val < current_node._data:
-                if current_node._lchild:
-                    current_node = current_node._lchild
-                else:
-                    current_node._lchild = new_node
-                    new_node._parent = current_node
-                    self._size += 1
-                    if current_depth > self._depth:
-                        self._depth = current_depth
-                        self._increment_balance(val)
-                    break
-            elif val > current_node._data:
-                if current_node._rchild:
-                    current_node = current_node._rchild
-                else:
-                    current_node._rchild = new_node
-                    new_node._parent = current_node
-                    self._size += 1
-                    if current_depth > self._depth:
-                        self._depth = current_depth
-                        self._increment_balance(val)
-                    break
+        if self._size == 0:
+            self._root = new_node
+            self._depth = 1
+        else:
+            current_node = self._root
+            current_depth = 1
+            while val is not current_node._data:
+                current_depth += 1
+                if val < current_node._data:
+                    if current_node._lchild:
+                        current_node = current_node._lchild
+                    else:
+                        current_node._lchild = new_node
+                        new_node._parent = current_node
+                        self._update_depth_insert(val, current_depth)
+                        break
+                elif val > current_node._data:
+                    if current_node._rchild:
+                        current_node = current_node._rchild
+                    else:
+                        current_node._rchild = new_node
+                        new_node._parent = current_node
+                        self._update_depth_insert(val, current_depth)
+                        break
+        self._size += 1
 
-    def _increment_balance(self, val):
+    def _increment_balance_insert(self, val):
         """."""
         if val > self._root._data:
             self._rightbal += 1
         elif val < self._root._data:
             self._leftbal += 1
+
+    def _update_depth_insert(self, val, current_depth):
+        """."""
+        if current_depth > self._depth:
+            self._depth = current_depth
+            self._increment_balance_insert(val)
 
     def balance(self):
         """."""
@@ -121,12 +122,90 @@ class BinarySearchTree(object):
 
     def pre_order(self):
         """Return a generator that returns the values pre-order."""
-        # to_visit = [self._root]
-        # while len(to_visit):
-        #     current_node = to_visit[0]
-        #     if current_node._lchild:
-        #         to_visit.append(current_node._lchild)
-        #     if current_node._rchild:
-        #         to_visit.append(current_node._rchild)
-        #     to_visit.remove(current_node)
-        #     yield current_node._data
+        visited = []
+        current = self._root
+        while len(visited) <= self.size():
+            if current._data not in visited:
+                visited.append(current._data)
+                yield current._data
+            if current._lchild is not None and current._lchild._data not in visited:
+                current = current._lchild
+            elif current._rchild is not None and current._rchild._data not in visited:
+                current = current._rchild
+            else:
+                current = current._parent
+
+    def in_order(self):
+        """Return a generator that returns the values pre-order."""
+        from stack import Stack
+        current = self._root
+        visited = []
+        in_order = []
+        stack = Stack()
+        while len(stack):
+            print(len(stack))
+            if current._data not in visited:
+                print('in if', current._data)
+                stack.push(current._data)
+            if current._rchild is None and current._lchild is None:
+                print('in second if', current._data)
+                in_order.append(current._data)
+                current = current._parent
+                in_order.append(current._data)
+                # yield stack.pop()
+            elif current._lchild in visited or current._lchild is None:
+                print('in elif', current._data)
+                if current._rchild is not None:
+                    current = current._rchild
+                else:
+                    current = current._parent
+                in_order.append(current._data)
+                # yield stack.pop()
+            print('visited', visited)
+            return in_order
+
+
+
+# def insert(self, val):
+#         """Insert a new value into binary search tree."""
+#         if type(val) not in [int, float]:
+#             raise TypeError('This tree accepts numbers only.')
+#         if self.contains(val):
+#             raise ValueError('Node already in tree.')
+#         new_node = Node(val)
+#         if self._size == 0:
+#             self._root = new_node
+#             self._max_depth = 1
+#             self._rbal = 1
+#             self._lbal = 1
+#         else:
+#             current_depth = 1
+#             current_node = self._root
+#             while val is not current_node._data:
+#                 current_depth += 1
+#                 if val < current_node._data:
+#                     if current_node._lkid:
+#                         current_node = current_node._lkid
+#                     else:
+#                         current_node._lkid = new_node
+#                         new_node._parent = current_node
+#                         self._update_balances_and_depth(current_depth, val)
+#                         break
+#                 elif val > current_node._data:
+#                     if current_node._rkid:
+#                         current_node = current_node._rkid
+#                     else:
+#                         current_node._rkid = new_node
+#                         new_node._parent = current_node
+#                         self._update_balances_and_depth(current_depth, val)
+#                         break
+#         self._size += 1
+
+#     def _update_balances_and_depth(self, current_depth, val):
+#         """Increment left/right balance on insert."""
+#         if current_depth > self._max_depth:
+#             self._max_depth = current_depth
+#         if val > self._root._data and self._rbal < current_depth:
+#             self._rbal = current_depth
+#         elif val < self._root._data and self._lbal < current_depth:
+#             self._lbal = current_depth

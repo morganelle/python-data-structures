@@ -33,6 +33,12 @@ def init_bst_list():
     return BinarySearchTree([6, 3, 8, 5, 4, 1, 9])
 
 
+@pytest.fixture
+def init_bst_list_traverse():
+    """."""
+    return BinarySearchTree([6, 3, 7, 1, 5, 4, 9, 8])
+
+
 def test_invalid_val_init():
     """."""
     with pytest.raises(TypeError):
@@ -196,3 +202,48 @@ def test_breadth_trav_list(init_bst_list):
     assert next(gen) == 5
     assert next(gen) == 9
     assert next(gen) == 4
+
+
+def test_pre_order(init_bst_list_traverse):
+    """."""
+    gen = init_bst_list_traverse.pre_order()
+    assert next(gen) == 6
+    assert next(gen) == 3
+    assert next(gen) == 1
+    assert next(gen) == 5
+    assert next(gen) == 4
+    assert next(gen) == 7
+    assert next(gen) == 9
+    assert next(gen) == 8
+
+
+def test_pre_order_right(init_bst_right):
+    """."""
+    gen = init_bst_right.pre_order()
+    assert next(gen) == 5
+    assert next(gen) == 10
+    assert next(gen) == 15
+    assert next(gen) == 20
+
+
+def test_pre_order_left(init_bst_left):
+    """."""
+    gen = init_bst_left.pre_order()
+    assert next(gen) == 20
+    assert next(gen) == 15
+    assert next(gen) == 10
+    assert next(gen) == 5
+
+
+def test_in_order(init_bst_list_traverse):
+    """."""
+    # gen = init_bst_list_traverse.in_order()
+    # assert next(gen) == 1
+    # assert next(gen) == 3
+    # assert next(gen) == 5
+    # assert next(gen) == 4
+    # assert next(gen) == 6
+    # assert next(gen) == 7
+    # assert next(gen) == 8
+    # assert next(gen) == 9
+    assert init_bst_list_traverse.in_order() == [1, 3, 5, 4, 6, 7, 8,]
