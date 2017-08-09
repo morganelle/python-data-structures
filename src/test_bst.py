@@ -190,3 +190,81 @@ def test_pre_order(tree_init_list):
     assert next(gen) is 6
     assert next(gen) is 5
     assert next(gen) is 7
+
+
+def test_pre_order_right(init_bst_right):
+    """Test pre-order first."""
+    gen = init_bst_right.pre_order_traversal()
+    assert next(gen) is 5
+    assert next(gen) is 10
+    assert next(gen) is 15
+    assert next(gen) is 20
+
+
+def test_pre_order_left(init_bst_left):
+    """Test pre-order first."""
+    gen = init_bst_left.pre_order_traversal()
+    assert next(gen) is 20
+    assert next(gen) is 15
+    assert next(gen) is 10
+    assert next(gen) is 5
+
+
+def test_in_order(tree_init_list):
+    """Test in-order first."""
+    gen = tree_init_list.in_order_traversal()
+    assert next(gen) is 1
+    assert next(gen) is 2
+    assert next(gen) is 3
+    assert next(gen) is 4
+    assert next(gen) is 5
+    assert next(gen) is 6
+    assert next(gen) is 7
+
+
+def test_in_order_right(init_bst_right):
+    """Test in-order first."""
+    gen = init_bst_right.in_order_traversal()
+    assert next(gen) is 5
+    assert next(gen) is 10
+    assert next(gen) is 15
+    assert next(gen) is 20
+
+
+def test_in_order_left(init_bst_left):
+    """Test in-order first."""
+    gen = init_bst_left.in_order_traversal()
+    assert next(gen) is 5
+    assert next(gen) is 10
+    assert next(gen) is 15
+    assert next(gen) is 20
+
+
+def test_post_order(tree_init_list):
+    """Test post-order first."""
+    gen = tree_init_list.post_order_traversal()
+    assert next(gen) is 1
+    assert next(gen) is 3
+    assert next(gen) is 2
+    assert next(gen) is 5
+    assert next(gen) is 7
+    assert next(gen) is 6
+    assert next(gen) is 4
+
+
+def test_post_order_right(init_bst_right):
+    """Test in-order first."""
+    gen = init_bst_right.post_order_traversal()
+    assert next(gen) is 20
+    assert next(gen) is 15
+    assert next(gen) is 10
+    assert next(gen) is 5
+
+
+def test_post_order_left(init_bst_left):
+    """Test in-order first."""
+    gen = init_bst_left.post_order_traversal()
+    assert next(gen) is 5
+    assert next(gen) is 10
+    assert next(gen) is 15
+    assert next(gen) is 20

@@ -105,12 +105,13 @@ class BinarySearchTree(object):
         return self._rdepth - self._ldepth
 
     def pre_order_traversal(self):
-        """Yield node data in pre-order."""
-        for node_data in self._pre_order(self._root):
-            yield node_data
+        """Init pre-order traversal with tree root."""
+        if self._root:
+            for node_data in self._pre_order(self._root):
+                yield node_data
 
     def _pre_order(self, current_node):
-        """."""
+        """Yield node data in pre-order."""
         yield current_node._data
         if current_node._lchild:
             for node_data in self._pre_order(current_node._lchild):
@@ -118,3 +119,36 @@ class BinarySearchTree(object):
         if current_node._rchild:
             for node_data in self._pre_order(current_node._rchild):
                 yield node_data
+
+    def in_order_traversal(self):
+        """Init in-order traversal with tree root."""
+        if self._root:
+            for node_data in self._in_order(self._root):
+                yield node_data
+
+    def _in_order(self, current_node):
+        """Yield node data in pre-order."""
+        if current_node._lchild:
+            for node_data in self._in_order(current_node._lchild):
+                yield node_data
+        yield current_node._data
+        if current_node._rchild:
+            for node_data in self._in_order(current_node._rchild):
+                yield node_data
+
+    def post_order_traversal(self):
+        """Init in-order traversal with tree root."""
+        if self._root:
+            for node_data in self._post_order(self._root):
+                yield node_data
+
+    def _post_order(self, current_node):
+        """Yield node data in pre-order."""
+        if current_node._lchild:
+            for node_data in self._post_order(current_node._lchild):
+                yield node_data
+        if current_node._rchild:
+            for node_data in self._post_order(current_node._rchild):
+                yield node_data
+        yield current_node._data
+
