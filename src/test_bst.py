@@ -268,3 +268,33 @@ def test_post_order_left(init_bst_left):
     assert next(gen) is 10
     assert next(gen) is 15
     assert next(gen) is 20
+
+
+def test_breadth_first_order(tree_init_list):
+    """Test breadth first."""
+    gen = tree_init_list.breadth_first_traversal()
+    assert next(gen) is 4
+    assert next(gen) is 2
+    assert next(gen) is 6
+    assert next(gen) is 1
+    assert next(gen) is 3
+    assert next(gen) is 5
+    assert next(gen) is 7
+
+
+def test_breadth_first_left(init_bst_left):
+    """Test breadth first."""
+    gen = init_bst_left.breadth_first_traversal()
+    assert next(gen) is 20
+    assert next(gen) is 15
+    assert next(gen) is 10
+    assert next(gen) is 5
+
+
+def test_breadth_first_right(init_bst_right):
+    """Test breadth first."""
+    gen = init_bst_right.pre_order_traversal()
+    assert next(gen) is 5
+    assert next(gen) is 10
+    assert next(gen) is 15
+    assert next(gen) is 20

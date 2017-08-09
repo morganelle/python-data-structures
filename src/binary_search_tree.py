@@ -152,3 +152,16 @@ class BinarySearchTree(object):
                 yield node_data
         yield current_node._data
 
+    def breadth_first_traversal(self):
+        """Yield node data in breadth-first fashion."""
+        from que_ import QueueStructure
+        tree_queue = QueueStructure()
+        current_node = self._root
+        tree_queue.enqueue(current_node)
+        while len(tree_queue):
+            current_node = tree_queue.dequeue()
+            yield current_node._data
+            if current_node._lchild:
+                tree_queue.enqueue(current_node._lchild)
+            if current_node._rchild:
+                tree_queue.enqueue(current_node._rchild)
