@@ -98,7 +98,19 @@ class BinarySearchTree(object):
 
     def depth(self):
         """Return depth of tree."""
-        return self._ldepth if self._ldepth > self._rdepth else self._rdepth
+        return self._depth_helper(self._root)
+
+    def _depth_helper(self, node):
+        """Return depth of tree."""
+        if node is None:
+            return 0
+        else:
+            right = self._depth_helper(node._rchild)
+            left = self._depth_helper(node._lchild)
+            if right > left:
+                return right + 1
+            else:
+                return left + 1
 
     def balance(self):
         """Return balance of tree."""
